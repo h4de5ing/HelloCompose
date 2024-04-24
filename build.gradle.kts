@@ -20,6 +20,9 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
+    implementation(compose.material3)
+//    implementation(compose.components.uiToolingPreview)
+    implementation("com.fazecast:jSerialComm:2.10.4")
 }
 
 compose.desktop {
@@ -35,8 +38,8 @@ compose.desktop {
 }
 
 tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "MainKt"
-    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest { attributes["Main-Class"] = "MainKt" }
+    configurations.forEach { println("it->${it}") }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
